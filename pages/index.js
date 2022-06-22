@@ -1,7 +1,7 @@
 import axios from "axios"
 import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
-import useRandomChoice from "../hooks/useRandomChoice"
+import RandomChoice from "../hooks/RandomChoice"
 
 export async function getStaticProps() {
   const versions = await axios.get("http://ddragon.leagueoflegends.com/api/versions.json")
@@ -21,7 +21,7 @@ export async function getStaticProps() {
 export default function Home(props) {
   
   const handleClick = () => {
-    setRandomChampion(useRandomChoice(props.champions))}
+    setRandomChampion(RandomChoice(props.champions))}
   const [randomChampion, setRandomChampion] = useState(undefined)
   const [items, setItems] = useState([])
 
@@ -54,7 +54,7 @@ export default function Home(props) {
       let found = false
       
       while (!found) {
-        randomItem = useRandomChoice(props.items)      
+        randomItem = RandomChoice(props.items)      
 
         if (Object.keys(randomItem).includes("requiredAlly") || randomItem.maps["11"] === false || !Object.keys(randomItem).includes("depth") || localItems2.includes(randomItem.name)){
           continue
