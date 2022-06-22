@@ -56,7 +56,7 @@ export default function Home(props) {
       while (!found) {
         randomItem = RandomChoice(props.items)      
 
-        if (Object.keys(randomItem).includes("requiredAlly") || randomItem.maps["11"] === false || !Object.keys(randomItem).includes("depth") || localItems2.includes(randomItem.name)){
+        if (Object.keys(randomItem).includes("requiredAlly") || randomItem.maps["11"] === false || !Object.keys(randomItem).includes("depth") || localItems2.includes(randomItem.name) || randomItem.name === "Equinox"){
           continue
         }
 
