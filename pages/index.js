@@ -21,7 +21,10 @@ export async function getStaticProps() {
 export default function Home(props) {
   
   const handleClick = () => {
-    setRandomChampion(RandomChoice(props.champions))}
+    setRandomChampion(RandomChoice(props.champions))
+    
+  }
+
   const [randomChampion, setRandomChampion] = useState(undefined)
   const [items, setItems] = useState([])
 
@@ -48,6 +51,7 @@ export default function Home(props) {
         localItems.push('ap')
       }
     }
+    let localItems3 = []
     let localItems2
     localItems2 = []
     for (let i of localItems) {
@@ -56,7 +60,7 @@ export default function Home(props) {
       while (!found) {
         randomItem = RandomChoice(props.items)      
 
-        if (Object.keys(randomItem).includes("requiredAlly") || randomItem.maps["11"] === false || !Object.keys(randomItem).includes("depth") || localItems2.includes(randomItem.name) || randomItem.name === "Equinox"){
+        if (Object.keys(randomItem).includes("requiredAlly") || randomItem.maps["11"] === false || !Object.keys(randomItem).includes("depth") || localItems3.includes(randomItem.name) || randomItem.name === "Equinox"){
           continue
         }
 
@@ -77,7 +81,8 @@ export default function Home(props) {
             else
               continue
 
-            localItems2.push(randomItem.name)
+              localItems3.push(randomItem.name)
+              localItems2.push([randomItem.name, randomItem.image.full])
             console.log(randomItem)
         } else if (localItems2.length !== 0 && !Object.keys(randomItem).includes("into")){
            if (i === "ad" && randomItem.tags.includes("Damage"))
@@ -96,7 +101,8 @@ export default function Home(props) {
             else
               continue
 
-            localItems2.push(randomItem.name)
+            localItems3.push(randomItem.name)
+            localItems2.push([randomItem.name, randomItem.image.full])
             console.log(randomItem)
         } else {
           console.log("bruh")
@@ -108,30 +114,48 @@ export default function Home(props) {
   }, [randomChampion])
 
   
+
   return (
+  <div className="root">
   <div className="container">
 
     <button onClick={handleClick}>Random champ</button>
    
-    {randomChampion !== undefined && <p>{randomChampion.name}</p>}
+    {randomChampion !== undefined && <div className="champion"><p>{randomChampion.name}</p><img className="champion-img" src={`http://ddragon.leagueoflegends.com/cdn/${props.versions[0]}/img/champion/${randomChampion.id}.png`}/></div>}
 
     {items.map((item) => (
-      <p key={nanoid()}>{item}</p>
+      <div className="item" key={nanoid()}><p>{item[0]}</p><img src={`http://ddragon.leagueoflegends.com/cdn/${props.versions[0]}/img/item/${item[1]}`}/></div>
     ))}
 
     <style jsx>{`
+
+    .champion {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      margin: 1em 0;
+    }
 
     .container {
       height: 100vh;
       display: grid;
       place-content: center;
+      width: 50em;
+    }
+
+    .item {
+      display: flex;
+      width: 20em;
+      margin-bottom: 1em;
+      justify-content: space-between;
     }
 
     button {
-      padding: 5em;
+      padding: 4em;
     }
 
     `}</style>
+  </div>
   </div>
   )
 }
