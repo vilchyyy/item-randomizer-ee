@@ -1,5 +1,6 @@
 import axios from "axios"
 import { nanoid } from "nanoid"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import RandomChoice from "../hooks/RandomChoice"
 
@@ -111,7 +112,7 @@ export default function Home(props) {
 
     }
     setItems(localItems2)
-  }, [randomChampion])
+  }, [randomChampion, props.items])
 
   
 
@@ -119,15 +120,30 @@ export default function Home(props) {
   <div className="root">
   <div className="container">
 
-    <button onClick={handleClick}>Random champ</button>
+    <button className="randomChampButton" onClick={handleClick}>Random champ</button>
    
-    {randomChampion !== undefined && <div className="champion"><p>{randomChampion.name}</p><img className="champion-img" src={`http://ddragon.leagueoflegends.com/cdn/${props.versions[0]}/img/champion/${randomChampion.id}.png`}/></div>}
+    {randomChampion !== undefined && <div className="champion"><p>{randomChampion.name}</p><Image className="champion-img" height={120} width={120} src={`http://ddragon.leagueoflegends.com/cdn/${props.versions[0]}/img/champion/${randomChampion.id}.png`} alt={`picture of ${randomChampion.name}`}/></div>}
 
     {items.map((item) => (
-      <div className="item" key={nanoid()}><p>{item[0]}</p><img src={`http://ddragon.leagueoflegends.com/cdn/${props.versions[0]}/img/item/${item[1]}`}/></div>
+      <div className="item" key={nanoid()}><p>{item[0]}</p><Image alt={item[0]} height={70} width={70} src={`http://ddragon.leagueoflegends.com/cdn/${props.versions[0]}/img/item/${item[1]}`}/></div>
     ))}
 
     <style jsx>{`
+
+      .randomChampButton {
+        border: none;
+        background-color: #1a1a1a;
+        color: white;
+        cursor: pointer;
+        font-size: 1.5em;
+        padding: 1em;
+        border-radius: 10px;
+        transition: transform 0.2s;
+      }
+
+      .randomChampButton:hover {
+        transform: scale(1.1);
+      }
 
     .champion {
       display: flex;
@@ -140,7 +156,7 @@ export default function Home(props) {
       height: 100vh;
       display: grid;
       place-content: center;
-      width: 50em;
+      width: 100vw;
     }
 
     .item {
